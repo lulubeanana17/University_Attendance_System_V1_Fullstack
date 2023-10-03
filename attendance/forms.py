@@ -32,6 +32,28 @@ class ClassForm(forms.ModelForm):
         required=True,
     )
 
+class ClassLecturerForm(forms.ModelForm):
+    class Meta:
+        model = Class
+        fields = ['lecturer']
+        widgets = {
+            'lecturer': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+class ClassEnrolmentForm(forms.ModelForm):
+    class Meta:
+        model = Class
+        fields = ['enrollments']
+        widgets = {
+            'enrollments': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    enrollments = forms.ModelMultipleChoiceField(
+        queryset=Enrollment.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+    )
+
 class UserRegistrationForm1(UserCreationForm):
     class Meta:
         model = User
@@ -59,3 +81,4 @@ class StudentForm(forms.ModelForm):
             'number': forms.TextInput(attrs={'class': 'form-control'}),
             'studentInfo': forms.Select(attrs={'class': 'form-control'}),
         }
+

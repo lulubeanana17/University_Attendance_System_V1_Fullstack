@@ -3,7 +3,8 @@ from django.urls import path
 from attendance.views import HomePageView, list_semesters, detail_semester, detail_course, list_courses, list_classes, \
     detail_class, list_lecturers, detail_lecturer, list_students, detail_student, create_semester_form, create_semester, \
     CourseCreateView, ClassCreateView, register_user_lecturer, register_user_student, LecturerCreateView, \
-    StudentCreateView
+    StudentCreateView, ClassLecturerUpdateView, ClassStudentEnrolView, ClassLecturerAssignView, \
+    remove_class_lecturer, remove_class_enrollment
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
@@ -24,6 +25,16 @@ urlpatterns = [
          name="detail_class"),
     path("classes/create", ClassCreateView.as_view(),
          name="create_class"),
+    path("classes/assignLecturer/<int:pk>", ClassLecturerAssignView.as_view()
+         , name="assign_class_lecturer_view"),
+    path("classes/removeLecturer/<int:id>",  remove_class_lecturer
+         , name="remove_class_lecturer"),
+    path("classes/updateLecturer/<int:pk>", ClassLecturerUpdateView.as_view()
+         , name="update_class_lecturer_view"),
+    path("classes/enrol/<int:pk>", ClassStudentEnrolView.as_view()
+         , name="enrol_class_enrolment_view"),
+    path("classes/removeEnrol/<int:id>/<int:enrollment_id>", remove_class_enrollment
+         , name="remove_class_enrollment"),
     path("lecturers", list_lecturers, name="lecturers"),
     path("lecturers/<int:id>", detail_lecturer,
          name="detail_lecturer"),

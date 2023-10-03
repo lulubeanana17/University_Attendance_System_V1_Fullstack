@@ -50,9 +50,9 @@ class Enrollment(models.Model):
 
 class Class(models.Model):
     number = models.CharField(max_length=255)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='Class')
-    enrollments = models.ManyToManyField(Enrollment, blank=True)
-    lecturer = models.ForeignKey(Lecturer, on_delete=models.CASCADE, related_name='Class')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='classes')
+    enrollments = models.ManyToManyField(Enrollment, null=True, blank=True)
+    lecturer = models.ForeignKey(Lecturer, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.course.name + " " + self.number + " - " + self.course.semester.semester + " " + self.course.semester.year

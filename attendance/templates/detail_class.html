@@ -6,10 +6,19 @@
     <h1>Class Number: {{ class.number }}</h1>
     <h3>Course Name: {{ class.course.name }}</h3></br>
     <h5>Lecturer: {{ class.lecturer.lecturerInfo.first_name }} {{ class.lecturer.lecturerInfo.last_name }}</h5>
+    {% if class.lecturer == null %}
+        <a href="{% url 'assign_class_lecturer_view' class.id %}" class="btn btn-danger">Assign the lecturer</a>
+    {% endif %}
+    {% if class.lecturer != null %}
+        <a href="{% url 'update_class_lecturer_view' class.id %}" class="btn btn-danger">Change the lecturer</a>
+        <a href="{% url 'remove_class_lecturer' class.id %}" class="btn btn-danger">Remove the lecturer</a>
+    {% endif %}
     <h2>Enrollments:</h2>
     <ul>
         {% for enrollment in class.enrollments.all %}
             <li>{{ enrollment.student.studentInfo.first_name }} {{ enrollment.student.studentInfo.last_name }}</li>
+            <a href="{% url 'remove_class_enrollment' class.id enrollment.id %}" class="btn btn-danger">Remove students</a>
         {% endfor %}
     </ul>
+    <a href="{% url 'enrol_class_enrolment_view' class.id %}" class="btn btn-danger">Enrol students</a>
 {% endblock %}
