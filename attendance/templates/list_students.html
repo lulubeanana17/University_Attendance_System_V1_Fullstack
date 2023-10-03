@@ -8,8 +8,8 @@ Students
     {% for student in students %}
         <li>
             <a href="{% url 'detail_student' id=student.id %}">{{ student.studentInfo.first_name }} {{ student.studentInfo.last_name }}</a>
-{#            <a href="{% url 'update_category_form' id=category.id %}" class="btn btn-primary">Update</a>#}
-{#            <a href="{% url 'delete_category' id=category.id %}" class="btn btn-danger">Delete</a>#}
+            <a href="{% url 'update_student_view' id=student.id %}" class="btn btn-primary">Update the student</a>
+            <a href="{% url 'delete_student_view' id=student.id %}" class="btn btn-danger">Delete the student</a>
         </li>
     {% endfor %}
     </ul>

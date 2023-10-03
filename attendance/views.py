@@ -163,6 +163,20 @@ class LecturerCreateView(CreateView):
     model = Lecturer
     form_class = LecturerForm
 
+# update lecturers
+class LecturerUpdateView(UpdateView):
+    template_name = "update_lecturer_view.html"
+    model = Lecturer
+    form_class = LecturerForm
+    pk_url_kwarg = 'id'
+
+# delete lecturers
+class LecturerDeleteView(DeleteView):
+    template_name = "delete_lecturer_view.html"
+    model = Lecturer
+    success_url = reverse_lazy("lecturers")
+    pk_url_kwarg = 'id'
+
 # show students
 def list_students(request):
     data = Student.objects.all()
@@ -186,6 +200,20 @@ class StudentCreateView(CreateView):
     template_name = "create_student_view.html"
     model = Student
     form_class = StudentForm
+
+# update students
+class StudentUpdateView(UpdateView):
+    template_name = "update_student_view.html"
+    model = Student
+    form_class = StudentForm
+    pk_url_kwarg = 'id'
+
+# delete students
+class StudentDeleteView(DeleteView):
+    template_name = "delete_student_view.html"
+    model = Student
+    success_url = reverse_lazy("students")
+    pk_url_kwarg = 'id'
 
 # create lecturers
 def register_user_lecturer(request):
