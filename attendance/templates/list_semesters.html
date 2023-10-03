@@ -1,0 +1,16 @@
+{%  extends "base.html" %}
+{%  block title %}
+Semesters
+{%  endblock %}
+{%  block content %}
+    <a href="{% url 'create_semester_form' %}" class="btn btn-danger">Create New Semester</a>
+    <ul>
+    {% for semester in semesters %}
+        <li>
+            <a href="{% url 'detail_semester' id=semester.id %}">{{ semester.semester }} - {{ semester.year }}</a>
+{#            <a href="{% url 'update_category_form' id=category.id %}" class="btn btn-primary">Update</a>#}
+{#            <a href="{% url 'delete_category' id=category.id %}" class="btn btn-danger">Delete</a>#}
+        </li>
+    {% endfor %}
+    </ul>
+{%  endblock %}

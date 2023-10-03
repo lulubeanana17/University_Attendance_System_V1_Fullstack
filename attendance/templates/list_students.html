@@ -1,0 +1,16 @@
+{%  extends "base.html" %}
+{%  block title %}
+Students
+{%  endblock %}
+{%  block content %}
+    <a href="{% url 'register_user_student' %}" class="btn btn-danger">Create New Student</a>
+    <ul>
+    {% for student in students %}
+        <li>
+            <a href="{% url 'detail_student' id=student.id %}">{{ student.studentInfo.first_name }} {{ student.studentInfo.last_name }}</a>
+{#            <a href="{% url 'update_category_form' id=category.id %}" class="btn btn-primary">Update</a>#}
+{#            <a href="{% url 'delete_category' id=category.id %}" class="btn btn-danger">Delete</a>#}
+        </li>
+    {% endfor %}
+    </ul>
+{%  endblock %}

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ lecturer.lecturerInfo.first_name }} {{ lecturer.lecturerInfo.last_name }}
+{% endblock %}
+{% block content %}
+    <h1>{{ lecturer.lecturerInfo.first_name }} {{ lecturer.lecturerInfo.last_name }}</h1>
+{% endblock %}
