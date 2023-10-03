@@ -8,8 +8,8 @@ Classes
     {% for class in classes %}
         <li>
             <a href="{% url 'detail_class' id=class.id %}">{{ class.course.name }} {{ class.number }} - {{ class.course.semester.semester }} {{ class.course.semester.year }}</a>
-{#            <a href="{% url 'update_category_form' id=category.id %}" class="btn btn-primary">Update</a>#}
-{#            <a href="{% url 'delete_category' id=category.id %}" class="btn btn-danger">Delete</a>#}
+            <a href="{% url 'update_class_view' id=class.id %}" class="btn btn-primary">Update the class</a>
+            <a href="{% url 'delete_class_view' id=class.id %}" class="btn btn-danger">Delete the class</a>
         </li>
     {% endfor %}
     </ul>

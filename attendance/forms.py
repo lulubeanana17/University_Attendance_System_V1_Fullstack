@@ -50,6 +50,22 @@ class ClassForm(forms.ModelForm):
         required=True,
     )
 
+class ClassUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Class
+        fields = ['number', 'enrollments', 'lecturer']
+        widgets = {
+            'number': forms.TextInput(attrs={'class': 'form-control'}),
+            'enrollments': forms.Select(attrs={'class': 'form-control'}),
+            'lecturer': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    enrollments = forms.ModelMultipleChoiceField(
+        queryset=Enrollment.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True,
+    )
+
 class ClassLecturerForm(forms.ModelForm):
     class Meta:
         model = Class
