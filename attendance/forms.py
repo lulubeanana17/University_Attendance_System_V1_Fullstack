@@ -2,8 +2,17 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Course, Class, Enrollment, Lecturer, Student
+from .models import Course, Class, Enrollment, Lecturer, Student, Semester
 
+
+class SemesterForm(forms.ModelForm):
+    class Meta:
+        model = Semester
+        fields = ['semester', 'year']
+        widgets = {
+            'semester': forms.TextInput(attrs={'class': 'form-control'}),
+            'year': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 class CourseForm(forms.ModelForm):
     class Meta:

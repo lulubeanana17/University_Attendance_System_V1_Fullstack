@@ -31,6 +31,9 @@ class Semester(models.Model):
     def __str__(self):
         return self.semester + " " + self.year
 
+    def get_absolute_url(self):
+        return reverse("semesters")
+
 class Course(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name='courses')
     code = models.CharField(max_length=255)

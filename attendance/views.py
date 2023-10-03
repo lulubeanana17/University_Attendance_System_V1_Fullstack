@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from attendance.forms import CourseForm, ClassForm, UserRegistrationForm1, UserRegistrationForm2, LecturerForm, \
-    StudentForm, ClassLecturerForm, ClassEnrolmentForm
+    StudentForm, ClassLecturerForm, ClassEnrolmentForm, SemesterForm
 from attendance.models import Semester, Course, Class, Lecturer, Student, Enrollment
 
 
@@ -49,7 +49,21 @@ def create_semester_form(request):
     return render(request,
                   'create_semester_form.html', {})
 
-#show courses
+# update semesters
+class SemesterUpdateView(UpdateView):
+    template_name = "update_semester_view.html"
+    model = Semester
+    form_class = SemesterForm
+    pk_url_kwarg = 'id'
+
+# delete semesters
+class SemesterDeleteView(DeleteView):
+    template_name = "delete_semester_view.html"
+    model = Semester
+    success_url = reverse_lazy("semesters")
+    pk_url_kwarg = 'id'
+
+# show courses
 def list_courses(request):
     data = Course.objects.all()
     content = {'courses': data}

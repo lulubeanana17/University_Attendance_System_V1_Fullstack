@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}
+    Update {{ semester.semester }} {{ semester.year }}
+{% endblock %}
+{% block content %}
+    <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>Update</button>
+    </form>
+{% endblock %}

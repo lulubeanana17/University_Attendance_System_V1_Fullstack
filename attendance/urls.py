@@ -4,7 +4,7 @@ from attendance.views import HomePageView, list_semesters, detail_semester, deta
     detail_class, list_lecturers, detail_lecturer, list_students, detail_student, create_semester_form, create_semester, \
     CourseCreateView, ClassCreateView, register_user_lecturer, register_user_student, LecturerCreateView, \
     StudentCreateView, ClassLecturerUpdateView, ClassStudentEnrolView, ClassLecturerAssignView, \
-    remove_class_lecturer, remove_class_enrollment
+    remove_class_lecturer, remove_class_enrollment, SemesterUpdateView, SemesterDeleteView
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
@@ -15,6 +15,10 @@ urlpatterns = [
          name="create_semester_form"),
     path("semesters/create", create_semester,
          name="create_semester"),
+    path("semesters/update/<int:id>", SemesterUpdateView.as_view(),
+         name="update_semester"),
+    path("semester/delete/<int:id>", SemesterDeleteView.as_view()
+         , name="delete_semester"),
     path("courses", list_courses, name="courses"),
     path("courses/<int:id>", detail_course,
          name="detail_course"),
