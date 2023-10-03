@@ -24,6 +24,15 @@ class CourseForm(forms.ModelForm):
             'semester': forms.Select(attrs={'class': 'form-control'}),
         }
 
+class CourseUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['code', 'name']
+        widgets = {
+            'code': forms.TextInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
 class ClassForm(forms.ModelForm):
     class Meta:
         model = Class
