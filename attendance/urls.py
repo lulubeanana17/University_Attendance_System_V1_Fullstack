@@ -6,9 +6,11 @@ from attendance.views import HomePageView, list_semesters, detail_semester, deta
     StudentCreateView, ClassLecturerUpdateView, ClassStudentEnrolView, ClassLecturerAssignView, \
     remove_class_lecturer, remove_class_enrollment, SemesterUpdateView, SemesterDeleteView, CourseUpdateView, \
     CourseDeleteView, ClassUpdateView, ClassDeleteView, LecturerUpdateView, LecturerDeleteView, StudentUpdateView, \
-    StudentDeleteView
+    StudentDeleteView, administrator_login, logoutUser
 
 urlpatterns = [
+    path("login/administrator", administrator_login, name='administrator_login'),
+    path('logout', logoutUser, name='logout'),
     path("", HomePageView.as_view(), name="home"),
     path("semesters", list_semesters, name="semesters"),
     path("semesters/<int:id>", detail_semester,
