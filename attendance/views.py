@@ -7,8 +7,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from attendance.forms import CourseForm, ClassForm, UserRegistrationForm1, UserRegistrationForm2, LecturerForm, \
-    StudentForm, ClassLecturerForm, ClassEnrolmentForm, SemesterForm, CourseUpdateForm, ClassUpdateForm
+    StudentForm, ClassLecturerForm, ClassEnrolmentForm, SemesterForm, CourseUpdateForm, ClassUpdateForm, UploadExcelForm
 from attendance.models import Semester, Course, Class, Lecturer, Student, Enrollment
+import pandas as pd
 
 
 class HomePageView(ListView):
@@ -345,4 +346,24 @@ def logoutUser(request):
     logout(request)
 
     return redirect('home')
+
+# upload Excel file and register them as students
+def upload_excel(request):
+    if request.method == 'POST':
+        form = UploadExcelForm(request.POST, request.FILES)
+        if form.is_valid():
+            excel_file = request.FILES['excel_file']
+            df = pd.read_excel(excel_file)
+            for _, row in df.iterrows():
+                dob = row['DOB']
+                first_name = row['First Name']
+                last_name = row['Last Name']
+                username = row['User Name']
+                user = User.objects.create(username=username, first_name=first_name, last_name=last_name)
+                student = Student.objects.create(dob=dob, studentInfo=user)
+            return redirect('home')
+    else:
+        form = UploadExcelForm()
+    return render(request, 'upload_excel.html', {'form': form})
+
 

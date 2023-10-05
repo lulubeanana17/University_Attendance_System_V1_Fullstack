@@ -6,7 +6,7 @@ from attendance.views import HomePageView, list_semesters, detail_semester, deta
     StudentCreateView, ClassLecturerUpdateView, ClassStudentEnrolView, ClassLecturerAssignView, \
     remove_class_lecturer, remove_class_enrollment, SemesterUpdateView, SemesterDeleteView, CourseUpdateView, \
     CourseDeleteView, ClassUpdateView, ClassDeleteView, LecturerUpdateView, LecturerDeleteView, StudentUpdateView, \
-    StudentDeleteView, administrator_login, logoutUser, lecturer_login, student_login
+    StudentDeleteView, administrator_login, logoutUser, lecturer_login, student_login, upload_excel
 
 urlpatterns = [
     path("login/administrator", administrator_login, name='administrator_login'),
@@ -73,4 +73,5 @@ urlpatterns = [
          , name="delete_student_view"),
     path('lecturers/register', register_user_lecturer, name='register_user_lecturer'),
     path('students/register', register_user_student, name='register_user_student'),
+    path("uploadexcel", upload_excel, name='upload_excel'),
 ]

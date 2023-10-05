@@ -39,9 +39,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'students' %}">Student</a>
         </li>
-{#        <li class="nav-item">#}
-{#          <a class="nav-link" href="{% url 'upload_files' %}">Upload file</a>#}
-{#        </li>#}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'upload_excel' %}">Upload student file</a>
+        </li>
       {% endif %}
        <li class="nav-item">
            {% if user.is_authenticated %}

@@ -116,3 +116,6 @@ class StudentForm(forms.ModelForm):
             'studentInfo': forms.Select(attrs={'class': 'form-control'}),
         }
 
+# upload excel form
+class UploadExcelForm(forms.Form):
+    excel_file = forms.FileField()
