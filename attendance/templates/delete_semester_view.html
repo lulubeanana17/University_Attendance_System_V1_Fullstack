@@ -3,9 +3,11 @@
     Delete {{ semester.semester }} {{ semester.year }}
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <form method="post">
     {% csrf_token %}
     <p>Are you sure?</p>
     <button>YES</button>
     </form>
+    {% endif %}
 {% endblock %}

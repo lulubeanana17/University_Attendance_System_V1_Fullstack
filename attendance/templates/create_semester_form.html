@@ -4,10 +4,12 @@
 {% endblock %}
 
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <form method="post" action="{% url 'create_semester' %}">
     {% csrf_token %}
         <p>Semester Name: <input type="text" name="semester_semester" placeholder="Semester Name"></p>
         <p>Semester Year: <input type="text" name="semester_year" placeholder="Semester Year"></p>
         <button>Add</button>
     </form>
+    {% endif %}
 {% endblock %}

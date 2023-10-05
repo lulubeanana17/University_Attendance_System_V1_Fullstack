@@ -3,5 +3,7 @@
     {{ course.name }}
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <h1>{{ course.code }} - {{ course.name }}</h1>
+    {% endif %}
 {% endblock %}

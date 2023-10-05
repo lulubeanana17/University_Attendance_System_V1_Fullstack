@@ -3,9 +3,11 @@
     Update {{ class.lecturer }}
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button>Update</button>
     </form>
+    {% endif %}
 {% endblock %}

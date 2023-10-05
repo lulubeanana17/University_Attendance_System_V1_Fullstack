@@ -3,6 +3,7 @@
     {{ class.course.name }} - {{ class.number }}
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <h1>Class Number: {{ class.number }}</h1>
     <h3>Course Name: {{ class.course.name }}</h3></br>
     <h5>Lecturer: {{ class.lecturer.lecturerInfo.first_name }} {{ class.lecturer.lecturerInfo.last_name }}</h5>
@@ -21,4 +22,5 @@
         {% endfor %}
     </ul>
     <a href="{% url 'enrol_class_enrolment_view' class.id %}" class="btn btn-danger">Enrol students</a>
+    {% endif %}
 {% endblock %}

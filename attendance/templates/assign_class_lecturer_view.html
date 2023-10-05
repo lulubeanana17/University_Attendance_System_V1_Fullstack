@@ -3,9 +3,11 @@
     Assign {{ class.lecturer.lecturerInfo.first_name }} {{ class.lecturer.lecturerInfo.last_name }}
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button>Assign</button>
     </form>
+    {% endif %}
 {% endblock %}

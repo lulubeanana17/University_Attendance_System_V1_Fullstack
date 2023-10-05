@@ -3,6 +3,8 @@
     Create Semester
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     {{ message }}
     <a href="{% url 'semesters' %}">back to semester lists</a>
+    {% endif %}
 {% endblock %}

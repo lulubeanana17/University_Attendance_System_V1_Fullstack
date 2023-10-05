@@ -3,6 +3,7 @@
 Students
 {%  endblock %}
 {%  block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <a href="{% url 'register_user_student' %}" class="btn btn-danger">Create New Student</a>
     <ul>
     {% for student in students %}
@@ -13,4 +14,5 @@ Students
         </li>
     {% endfor %}
     </ul>
+    {% endif %}
 {%  endblock %}

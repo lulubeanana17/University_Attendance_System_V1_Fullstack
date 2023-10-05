@@ -3,5 +3,7 @@
     {{ lecturer.lecturerInfo.first_name }} {{ lecturer.lecturerInfo.last_name }}
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <h1>{{ lecturer.lecturerInfo.first_name }} {{ lecturer.lecturerInfo.last_name }}</h1>
+    {% endif %}
 {% endblock %}

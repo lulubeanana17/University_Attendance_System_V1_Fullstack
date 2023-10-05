@@ -3,9 +3,11 @@
     Create Lecturer
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <form method="post" >
     {% csrf_token %}
     {{ form.as_p }}
     <button>Create</button>
     </form>
+    {% endif %}
 {% endblock %}

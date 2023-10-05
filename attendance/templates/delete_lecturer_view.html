@@ -3,9 +3,11 @@
     Delete {{ lecturer.lecturerInfo.first_name }} {{ lecturer.lecturerInfo.last_name }}
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <form method="post">
     {% csrf_token %}
     <p>Are you sure?</p>
     <button>YES</button>
     </form>
+    {% endif %}
 {% endblock %}

@@ -6,11 +6,12 @@ from attendance.views import HomePageView, list_semesters, detail_semester, deta
     StudentCreateView, ClassLecturerUpdateView, ClassStudentEnrolView, ClassLecturerAssignView, \
     remove_class_lecturer, remove_class_enrollment, SemesterUpdateView, SemesterDeleteView, CourseUpdateView, \
     CourseDeleteView, ClassUpdateView, ClassDeleteView, LecturerUpdateView, LecturerDeleteView, StudentUpdateView, \
-    StudentDeleteView, administrator_login, logoutUser, lecturer_login
+    StudentDeleteView, administrator_login, logoutUser, lecturer_login, student_login
 
 urlpatterns = [
     path("login/administrator", administrator_login, name='administrator_login'),
     path("login/lecturer", lecturer_login, name='lecturer_login'),
+    path("login/student", student_login, name='student_login'),
     path('logout', logoutUser, name='logout'),
     path("", HomePageView.as_view(), name="home"),
     path("semesters", list_semesters, name="semesters"),

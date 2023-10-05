@@ -288,7 +288,7 @@ def administrator_login(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            if user.is_staff or user.is_superuser:
+            if user.is_staff and user.is_superuser:
                 login(request, user)
                 return redirect('home')
             else:
@@ -319,6 +319,26 @@ def lecturer_login(request):
 
     return render(request, 'lecturer_login.html', {'error_message': error_message})
 
+# login for students
+def student_login(request):
+    error_message = None
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            student = Student.objects.get(studentInfo__username=username)
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None and student:
+                login(request, user)
+                return redirect('home')
+            else:
+                error_message = "Invalid username or password."
+        except ObjectDoesNotExist:
+            error_message = "Invalid username or you don't have student access."
+
+    return render(request, 'student_login.html', {'error_message': error_message})
 
 # logout for everyone
 def logoutUser(request):

@@ -3,9 +3,11 @@
     Update {{ class.course }} {{ class.number }} {{ class.course.semester.semester }} {{ class.course.semester.year }}
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button>Update</button>
     </form>
+    {% endif %}
 {% endblock %}

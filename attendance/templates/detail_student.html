@@ -3,6 +3,7 @@
     {{ student.studentInfo.first_name }} {{ student.studentInfo.last_name }}
 {% endblock %}
 {% block content %}
+    {% if user.is_authenticated and user.is_staff %}
     <h1>{{ student.studentInfo.first_name }} {{ student.studentInfo.last_name }}</h1>
-
+    {% endif %}
 {% endblock %}
