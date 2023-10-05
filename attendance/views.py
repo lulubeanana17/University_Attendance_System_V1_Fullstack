@@ -1,5 +1,6 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -285,6 +286,7 @@ def administrator_login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             if user.is_staff or user.is_superuser:
                 login(request, user)
@@ -295,6 +297,28 @@ def administrator_login(request):
             error_message = "Invalid username or password."
 
     return render(request, 'administrator_login.html', {'error_message': error_message})
+
+# login for lecturers
+def lecturer_login(request):
+    error_message = None
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            lecturer = Lecturer.objects.get(lecturerInfo__username=username)
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None and lecturer:
+                login(request, user)
+                return redirect('home')
+            else:
+                error_message = "Invalid username or password."
+        except ObjectDoesNotExist:
+            error_message = "Invalid username or you don't have lecturer access."
+
+    return render(request, 'lecturer_login.html', {'error_message': error_message})
+
 
 # logout for everyone
 def logoutUser(request):
