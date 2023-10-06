@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ class.course.name }} - {{ class.number }}
+{% endblock %}
+{% block content %}
+    {% if user.is_authenticated %}
+    <h1>Class Number: {{ class.number }}</h1>
+    <h3>Course Name: {{ class.course.name }}</h3></br>
+
+    <h2>Enrollments:</h2>
+    <ul>
+        {% for enrollment in class.enrollments.all %}
+            <li>{{ enrollment.student.studentInfo.first_name }} {{ enrollment.student.studentInfo.last_name }}</li>
+            <a href="{% url 'mark_attendance' class.id enrollment.id %}" class="btn btn-danger">Enter Attendance</a>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

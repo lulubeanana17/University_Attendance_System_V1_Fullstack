@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Mark Attendance for {{ class.course.name }} - {{ class.number }}</h2>
+  <h2>Mark Attendance for {{ student.student.studentInfo.first_name }} {{ student.student.studentInfo.last_name }} in {{ class.course.name }} - {{ class.number }}</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

@@ -124,4 +124,4 @@ class UploadExcelForm(forms.Form):
 class AttendanceForm(forms.ModelForm):
     class Meta:
         model = Attendance
-        fields = ['status']
+        fields = ['status', 'date']

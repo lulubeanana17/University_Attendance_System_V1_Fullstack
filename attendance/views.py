@@ -381,16 +381,30 @@ def classlist_student(request):
 
     return render(request, 'classlist_student.html', {'classes_by_student': classes_by_student})
 
+# showing detail of class
+def detail_class_lecturer(request, id):
+    error_message = ""
+    try:
+        data = Class.objects.get(id=id)
+    except Class.DoesNotExist:
+        error_message = "The category does not exist"
+        data = None
+    return render(request, "detail_class_lecturer.html",
+                  {"class": data,
+                   "error_message": error_message})
+
 # marking attendance for lecturer
-def mark_attendance(request, class_id):
+def mark_attendance(request, class_id, enrollment_id):
     class_obj = Class.objects.get(id=class_id)
+    enrollment_obj = Enrollment.objects.get(id=enrollment_id)
 
     if request.method == 'POST':
 
         form = AttendanceForm(request.POST)
         if form.is_valid():
             attendance_data = form.cleaned_data.get('status')
-            Attendance.objects.create(class_Info=class_obj, enrollment=class_obj.enrollments, status=attendance_data)
+            date = form.cleaned_data.get('date')
+            Attendance.objects.create(class_info=class_obj, enrollment=enrollment_obj, status=attendance_data, date=date)
 
             return redirect('classlist_lecturer')
 
@@ -400,16 +414,16 @@ def mark_attendance(request, class_id):
     context = {
         'form': form,
         'class': class_obj,
+        'student': enrollment_obj,
     }
 
     return render(request, 'mark_attendance.html', context)
 
 # checking attendance for students
 def view_attendance(request, class_id):
-    selected_class = get_object_or_404(Class, pk=class_id)
+    selected_class = Class.objects.get(id=class_id)
     student_username = request.user.username
 
-    # Check if the student is enrolled in the class
     enrollment = selected_class.enrollments.filter(student__studentInfo__username=student_username).first()
 
     if enrollment:

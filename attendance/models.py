@@ -75,6 +75,7 @@ class Attendance(models.Model):
     class_info = models.ForeignKey(Class, on_delete=models.CASCADE)
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=[('attended', 'Attended'), ('absent', 'Absent')])
+    date = models.DateField(null=True)
 
     def __str__(self):
-        return self.enrollment.student.studentInfo.first_name + self.class_info
+        return self.enrollment.student.studentInfo.first_name + self.date
