@@ -4,23 +4,7 @@
   <h2>Mark Attendance for {{ class.course.name }} - {{ class.number }}</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form.date.label_tag }} {{ form.date }}
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Student Name</th>
-          <th>Attendance</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for field in form.attendance_data %}
-          <tr>
-            <td>{{ field.choice_label }}</td>
-            <td>{{ field }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
   <a href="{% url 'classlist_lecturer' %}" class="btn btn-secondary">Back to Class List</a>

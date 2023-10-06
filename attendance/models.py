@@ -64,18 +64,17 @@ class Class(models.Model):
         return reverse("classes")
 
 class CollegeDay(models.Model):
-    date = models.DateField()
+    date = models.DateField(null=True)
     classInfo = models.ForeignKey(Class, null=True, blank=True, on_delete=models.CASCADE)
     students = models.ForeignKey(Student, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 class Attendance(models.Model):
     class_info = models.ForeignKey(Class, on_delete=models.CASCADE)
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-    date = models.DateField()
     status = models.CharField(max_length=10, choices=[('attended', 'Attended'), ('absent', 'Absent')])
 
     def __str__(self):
-        return f"{self.enrollment.student.studentInfo.first_name} - {self.class_info}"
+        return self.enrollment.student.studentInfo.first_name + self.class_info

@@ -7,7 +7,7 @@
         <ul>
         {% for class in classes_by_lecturer %}
             <li>
-                <a href="{% url 'mark_attendance' class.id %}?class_obj={{ class.id }}">{{ class.course.name }} {{ class.number }} - {{ class.course.semester.semester }} {{ class.course.semester.year }}</a>
+                <a href="{% url 'mark_attendance' class.id %}">{{ class.course.name }} {{ class.number }} - {{ class.course.semester.semester }} {{ class.course.semester.year }}</a>
             </li>
         {% endfor %}
         </ul>

@@ -383,26 +383,19 @@ def classlist_student(request):
 
 # marking attendance for lecturer
 def mark_attendance(request, class_id):
-    # Retrieve the class based on the provided class_id
-    class_obj = get_object_or_404(Class, id=class_id)
+    class_obj = Class.objects.get(id=class_id)
 
     if request.method == 'POST':
-        # Handle form submission
-        form = AttendanceForm(request.POST, class_obj=class_obj)  # Pass class_obj to the form
-        if form.is_valid():
-            date = form.cleaned_data['date']
-            attendance_data = form.cleaned_data['attendance_data']
 
-            # Loop through students and mark attendance
-            for student in class_obj.enrollments.all():
-                status = attendance_data.get(str(student.id), 'absent')
-                CollegeDay.objects.create(date=date, classInfo=class_obj, students=student, status=status)
+        form = AttendanceForm(request.POST)
+        if form.is_valid():
+            attendance_data = form.cleaned_data.get('status')
+            Attendance.objects.create(class_Info=class_obj, enrollment=class_obj.enrollments, status=attendance_data)
 
             return redirect('classlist_lecturer')
 
     else:
-        # Display the form to mark attendance
-        form = AttendanceForm(class_obj=class_obj)  # Pass class_obj to the form
+        form = AttendanceForm()
 
     context = {
         'form': form,
@@ -410,8 +403,6 @@ def mark_attendance(request, class_id):
     }
 
     return render(request, 'mark_attendance.html', context)
-
-
 
 # checking attendance for students
 def view_attendance(request, class_id):
