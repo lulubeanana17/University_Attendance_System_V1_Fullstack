@@ -1,14 +1,15 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from attendance.forms import CourseForm, ClassForm, UserRegistrationForm1, UserRegistrationForm2, LecturerForm, \
-    StudentForm, ClassLecturerForm, ClassEnrolmentForm, SemesterForm, CourseUpdateForm, ClassUpdateForm, UploadExcelForm
-from attendance.models import Semester, Course, Class, Lecturer, Student, Enrollment
+    StudentForm, ClassLecturerForm, ClassEnrolmentForm, SemesterForm, CourseUpdateForm, ClassUpdateForm, \
+    UploadExcelForm, AttendanceForm
+from attendance.models import Semester, Course, Class, Lecturer, Student, Enrollment, Attendance, CollegeDay
 import pandas as pd
 
 
@@ -312,7 +313,7 @@ def lecturer_login(request):
 
             if user is not None and lecturer:
                 login(request, user)
-                return redirect('home')
+                return redirect('classlist_lecturer')
             else:
                 error_message = "Invalid username or password."
         except ObjectDoesNotExist:
@@ -333,7 +334,7 @@ def student_login(request):
 
             if user is not None and student:
                 login(request, user)
-                return redirect('home')
+                return redirect('classlist_student')
             else:
                 error_message = "Invalid username or password."
         except ObjectDoesNotExist:
@@ -366,4 +367,63 @@ def upload_excel(request):
         form = UploadExcelForm()
     return render(request, 'upload_excel.html', {'form': form})
 
+# showing classes that a specific lecturer assigned
+def classlist_lecturer(request):
+    lecturer_username = request.user.username
+    classes_by_lecturer = Class.objects.filter(lecturer__lecturerInfo__username=lecturer_username)
+
+    return render(request, 'classlist_lecturer.html', {'classes_by_lecturer': classes_by_lecturer})
+
+# showing classes that a specific student attends
+def classlist_student(request):
+    student_username = request.user.username
+    classes_by_student = Class.objects.filter(enrollments__student__studentInfo__username=student_username)
+
+    return render(request, 'classlist_student.html', {'classes_by_student': classes_by_student})
+
+# marking attendance for lecturer
+def mark_attendance(request, class_id):
+    # Retrieve the class based on the provided class_id
+    class_obj = get_object_or_404(Class, id=class_id)
+
+    if request.method == 'POST':
+        # Handle form submission
+        form = AttendanceForm(request.POST, class_obj=class_obj)  # Pass class_obj to the form
+        if form.is_valid():
+            date = form.cleaned_data['date']
+            attendance_data = form.cleaned_data['attendance_data']
+
+            # Loop through students and mark attendance
+            for student in class_obj.enrollments.all():
+                status = attendance_data.get(str(student.id), 'absent')
+                CollegeDay.objects.create(date=date, classInfo=class_obj, students=student, status=status)
+
+            return redirect('classlist_lecturer')
+
+    else:
+        # Display the form to mark attendance
+        form = AttendanceForm(class_obj=class_obj)  # Pass class_obj to the form
+
+    context = {
+        'form': form,
+        'class': class_obj,
+    }
+
+    return render(request, 'mark_attendance.html', context)
+
+
+
+# checking attendance for students
+def view_attendance(request, class_id):
+    selected_class = get_object_or_404(Class, pk=class_id)
+    student_username = request.user.username
+
+    # Check if the student is enrolled in the class
+    enrollment = selected_class.enrollments.filter(student__studentInfo__username=student_username).first()
+
+    if enrollment:
+        attendances = Attendance.objects.filter(class_info=selected_class, enrollment=enrollment)
+        return render(request, 'view_attendance.html', {'class': selected_class, 'attendances': attendances})
+    else:
+        return HttpResponseForbidden("You are not enrolled in this class.")
 

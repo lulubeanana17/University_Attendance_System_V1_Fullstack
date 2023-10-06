@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Attendance for {{ class.course.name }} - {{ class.number }}</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for attendance in attendances %}
+        <tr>
+          <td>{{ attendance.date }}</td>
+          <td>{{ attendance.status }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="2">No attendance records available.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'classlist_student' %}" class="btn btn-secondary">Back to Class List</a>
+{% endblock %}

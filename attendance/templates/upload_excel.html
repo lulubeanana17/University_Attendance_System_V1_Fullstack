@@ -1,5 +1,15 @@
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-</form>
+{% extends 'base.html' %}
+
+{% block title %}
+    Upload excel file and register students
+{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated and user.is_staff %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
+    {% endif %}
+{% endblock %}

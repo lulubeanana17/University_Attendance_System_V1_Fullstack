@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Course, Class, Enrollment, Lecturer, Student, Semester
+from .models import Course, Class, Enrollment, Lecturer, Student, Semester, Attendance
 
 
 class SemesterForm(forms.ModelForm):
@@ -119,3 +119,24 @@ class StudentForm(forms.ModelForm):
 # upload excel form
 class UploadExcelForm(forms.Form):
     excel_file = forms.FileField()
+
+# attendance
+from django import forms
+from .models import Student
+
+class AttendanceForm(forms.Form):
+    date = forms.DateField()
+    attendance_data = forms.TypedMultipleChoiceField(
+        choices=[('attended', 'Attended'), ('absent', 'Absent')],
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+    def __init__(self, *args, **kwargs):
+        class_obj = kwargs.pop('class_obj')
+        super(AttendanceForm, self).__init__(*args, **kwargs)
+
+        students = class_obj.enrollments.all()
+        for student in students:
+            field_name = str(student.id)
+            self.fields['attendance_data'].choices.append((field_name, student.studentInfo.get_full_name()))
+
