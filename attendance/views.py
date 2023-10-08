@@ -399,7 +399,6 @@ def mark_attendance(request, class_id, enrollment_id):
     enrollment_obj = Enrollment.objects.get(id=enrollment_id)
 
     if request.method == 'POST':
-
         form = AttendanceForm(request.POST)
         if form.is_valid():
             attendance_data = form.cleaned_data.get('status')
